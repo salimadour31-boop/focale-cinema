@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Calculateur de profondeur de champ (DoF) et champ de vision (FOV) pour cinéastes — gratuit, 100% navigateur." />
+  <title>Focale Cinéma — Profondeur de champ & FOV</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="brand">
+      <h1><span data-i18n="title">Focale Cinéma</span></h1>
+      <p data-i18n="subtitle">Profondeur de champ & champ de vision</p>
+    </div>
+    <div class="header-controls">
+      <div class="lang-switch" role="group" data-i18n-aria="aria_lang">
+        <button type="button" data-set-lang="fr" aria-pressed="true">FR</button>
+        <button type="button" data-set-lang="en" aria-pressed="false">EN</button>
+        <button type="button" data-set-lang="tzm" aria-pressed="false">TZM</button>
+      </div>
+      <div class="unit-switch" role="group" data-i18n-aria="aria_units">
+        <label>
+          <input type="radio" name="units" id="units-metric" value="metric" checked />
+          <span data-i18n="metric">Métrique (m)</span>
+        </label>
+        <label>
+          <input type="radio" name="units" id="units-imperial" value="imperial" />
+          <span data-i18n="imperial">Impérial (ft)</span>
+        </label>
+      </div>
+    </div>
+  </header>
+
+  <main class="main">
+    <!-- Controls -->
+    <section class="panel" aria-labelledby="controls-heading">
+      <h2 id="controls-heading" data-i18n="sensor">Capteur / format</h2>
+
+      <div class="field">
+        <label for="sensor" data-i18n="sensor">Capteur / format</label>
+        <select id="sensor">
+          <option value="ff" data-i18n="sensor_ff">Plein format (Full Frame)</option>
+          <option value="apsc" data-i18n="sensor_apsc">APS-C</option>
+          <option value="s35" data-i18n="sensor_s35">Super 35</option>
+          <option value="m43" data-i18n="sensor_m43">Micro 4/3</option>
+          <option value="inch1" data-i18n="sensor_1inch">1 pouce</option>
+          <option value="phone" data-i18n="sensor_phone">Smartphone 1/1.3"</option>
+          <option value="custom" data-i18n="sensor_custom">Facteur de crop personnalisé</option>
+        </select>
+      </div>
+
+      <div class="field" id="crop-wrap" hidden>
+        <label for="crop" data-i18n="crop_factor">Facteur de crop</label>
+        <input type="number" id="crop" min="0.5" max="10" step="0.01" value="1" />
+      </div>
+
+      <div class="field">
+        <label for="focal" data-i18n="focal">Focale (mm)</label>
+        <div class="row-inline">
+          <input type="range" id="focal" min="8" max="400" step="1" value="50" />
+          <input type="number" id="focal-num" min="8" max="800" step="0.1" value="50" />
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="aperture-select" data-i18n="aperture">Ouverture (f)</label>
+        <select id="aperture-select">
+          <option value="1.2">f/1.2</option>
+          <option value="1.4">f/1.4</option>
+          <option value="1.8" selected>f/1.8</option>
+          <option value="2">f/2</option>
+          <option value="2.8">f/2.8</option>
+          <option value="4">f/4</option>
+          <option value="5.6">f/5.6</option>
+          <option value="8">f/8</option>
+          <option value="11">f/11</option>
+          <option value="16">f/16</option>
+          <option value="22">f/22</option>
+          <option value="custom" data-i18n="aperture_custom">Personnalisée</option>
+        </select>
+      </div>
+
+      <div class="field" id="aperture-custom-wrap" hidden>
+        <label for="aperture-custom" data-i18n="aperture">Ouverture (f)</label>
+        <input type="number" id="aperture-custom" min="0.7" max="64" step="0.1" value="2.8" />
+      </div>
+
+      <div class="field">
+        <label for="distance">
+          <span data-i18n="distance">Distance sujet</span>
+          (<span id="dist-unit-label" data-i18n="distance_m">m</span>)
+        </label>
+        <div class="row-inline">
+          <input type="range" id="distance" min="0.1" max="50" step="0.1" value="2" />
+          <input type="number" id="distance-num" min="0.1" max="500" step="0.01" value="2" />
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="check-row">
+          <input type="checkbox" id="coc-override" />
+          <label for="coc-override" data-i18n="coc_override">Forcer CoC</label>
+        </div>
+        <label for="coc-input" data-i18n="coc">Cercle de confusion (mm)</label>
+        <input type="number" id="coc-input" min="0.001" max="0.5" step="0.001" value="0.029" disabled />
+      </div>
+    </section>
+
+    <!-- Results -->
+    <section class="panel" aria-labelledby="results-heading">
+      <h2 id="results-heading" data-i18n="results">Résultats</h2>
+      <div class="results-grid">
+        <div class="result-card highlight">
+          <div class="label" data-i18n="near">Limite proche</div>
+          <div class="value" id="res-near">—</div>
+        </div>
+        <div class="result-card highlight">
+          <div class="label" data-i18n="far">Limite lointaine</div>
+          <div class="value" id="res-far">—</div>
+        </div>
+        <div class="result-card warm">
+          <div class="label" data-i18n="dof">DoF totale</div>
+          <div class="value" id="res-dof">—</div>
+        </div>
+        <div class="result-card">
+          <div class="label" data-i18n="hyperfocal">Distance hyperfocale</div>
+          <div class="value" id="res-hyper">—</div>
+        </div>
+        <div class="result-card">
+          <div class="label" data-i18n="fov_h">FOV horizontal</div>
+          <div class="value" id="res-fovh">—</div>
+        </div>
+        <div class="result-card">
+          <div class="label" data-i18n="fov_v">FOV vertical</div>
+          <div class="value" id="res-fovv">—</div>
+        </div>
+        <div class="result-card">
+          <div class="label" data-i18n="ff_equiv">Équivalent plein format</div>
+          <div class="value" id="res-ff">—</div>
+        </div>
+        <div class="result-card">
+          <div class="label" data-i18n="coc">Cercle de confusion (mm)</div>
+          <div class="value" id="res-coc">—</div>
+        </div>
+      </div>
+
+      <div class="share-row">
+        <button type="button" class="btn" id="btn-share" data-i18n="share">Lien partageable</button>
+        <span id="share-status" aria-live="polite"></span>
+      </div>
+    </section>
+
+    <!-- Diagram -->
+    <section class="panel diagram-wrap" aria-labelledby="diagram-heading">
+      <h2 id="diagram-heading" data-i18n="diagram">Schéma optique</h2>
+      <svg class="diagram-svg" id="dof-diagram" viewBox="0 0 400 160" role="img" aria-label="Diagramme profondeur de champ">
+        <line class="axis" x1="40" y1="80" x2="380" y2="80" />
+        <path class="cone-top" d="M 40 80 L 300 40" />
+        <path class="cone-bot" d="M 40 80 L 300 120" />
+        <rect class="dof-zone" x="120" y="40" width="120" height="80" />
+        <rect class="lens-body" x="30" y="58" width="20" height="44" rx="3" />
+        <circle class="lens-glass" cx="40" cy="80" r="14" />
+        <line class="near-line" x1="120" y1="36" x2="120" y2="124" />
+        <line class="subj-line" x1="180" y1="36" x2="180" y2="124" />
+        <line class="far-line" x1="240" y1="36" x2="240" y2="124" />
+        <text class="lens-label" x="40" y="50">Objectif</text>
+        <text class="near-label" x="120" y="142">Proche</text>
+        <text class="subj-label" x="180" y="142">Sujet</text>
+        <text class="far-label" x="240" y="142">Lointain</text>
+      </svg>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p data-i18n="footer">Outil libre · MIT · 100 % navigateur · aucun serveur</p>
+  </footer>
+
+  <script src="js/i18n.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

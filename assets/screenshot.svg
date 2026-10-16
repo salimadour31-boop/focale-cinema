@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="540" viewBox="0 0 960 540">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#12161c"/>
+      <stop offset="100%" stop-color="#1a2129"/>
+    </linearGradient>
+  </defs>
+  <rect width="960" height="540" fill="url(#bg)"/>
+  <rect x="40" y="40" width="420" height="460" rx="12" fill="#1e2732" stroke="#2c3848"/>
+  <rect x="500" y="40" width="420" height="280" rx="12" fill="#1e2732" stroke="#2c3848"/>
+  <rect x="500" y="340" width="420" height="160" rx="12" fill="#1e2732" stroke="#2c3848"/>
+  <text x="60" y="80" fill="#3db8a0" font-family="system-ui,sans-serif" font-size="22" font-weight="700">Focale Cinéma</text>
+  <text x="60" y="110" fill="#8a9aab" font-family="system-ui,sans-serif" font-size="14">DoF &amp; FOV — Full Frame · 50 mm · f/1.8 · 2 m</text>
+  <rect x="60" y="140" width="380" height="36" rx="8" fill="#12161c" stroke="#2c3848"/>
+  <rect x="60" y="196" width="380" height="12" rx="3" fill="#2c3848"/>
+  <circle cx="200" cy="202" r="9" fill="#3db8a0"/>
+  <rect x="60" y="230" width="380" height="12" rx="3" fill="#2c3848"/>
+  <circle cx="140" cy="236" r="9" fill="#3db8a0"/>
+  <rect x="520" y="70" width="180" height="70" rx="8" fill="#1a2129" stroke="#2c3848"/>
+  <text x="535" y="95" fill="#8a9aab" font-family="system-ui,sans-serif" font-size="11">PROCHE</text>
+  <text x="535" y="120" fill="#3db8a0" font-family="monospace" font-size="18">1.89 m</text>
+  <rect x="720" y="70" width="180" height="70" rx="8" fill="#1a2129" stroke="#2c3848"/>
+  <text x="735" y="95" fill="#8a9aab" font-family="system-ui,sans-serif" font-size="11">LOINTAIN</text>
+  <text x="735" y="120" fill="#3db8a0" font-family="monospace" font-size="18">2.12 m</text>
+  <rect x="520" y="160" width="180" height="70" rx="8" fill="#1a2129" stroke="#2c3848"/>
+  <text x="535" y="185" fill="#8a9aab" font-family="system-ui,sans-serif" font-size="11">DoF</text>
+  <text x="535" y="210" fill="#e8a87c" font-family="monospace" font-size="18">0.23 m</text>
+  <rect x="720" y="160" width="180" height="70" rx="8" fill="#1a2129" stroke="#2c3848"/>
+  <text x="735" y="185" fill="#8a9aab" font-family="system-ui,sans-serif" font-size="11">FOV H</text>
+  <text x="735" y="210" fill="#e8eef4" font-family="monospace" font-size="18">39.6°</text>
+  <line x1="540" y1="420" x2="880" y2="420" stroke="#2c3848" stroke-dasharray="4 3"/>
+  <rect x="530" y="398" width="20" height="44" rx="3" fill="#2a3544" stroke="#3db8a0"/>
+  <circle cx="540" cy="420" r="12" fill="rgba(61,184,160,0.3)" stroke="#3db8a0"/>
+  <rect x="620" y="385" width="140" height="70" fill="rgba(61,184,160,0.15)" stroke="#2a8f7c"/>
+  <line x1="620" y1="380" x2="620" y2="460" stroke="#e8a87c"/>
+  <line x1="690" y1="380" x2="690" y2="460" stroke="#3db8a0" stroke-width="2"/>
+  <line x1="760" y1="380" x2="760" y2="460" stroke="#e8a87c"/>
+  <text x="480" y="520" fill="#8a9aab" font-family="system-ui,sans-serif" font-size="12" text-anchor="middle">MIT · FR / EN / TZM · 100% navigateur</text>
+</svg>
